@@ -10,15 +10,19 @@ import com.example.principiante.data.model.VariableProvider
 import com.example.principiante.domain.GetRamdonVariableCaseUse
 import com.example.principiante.domain.GetVariableUseCase
 import com.example.principiante.ui.view.MainActivity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class VariableViewModel : ViewModel() {
+@HiltViewModel
+class VariableViewModel @Inject constructor(
+    private val getVariableUseCase : GetVariableUseCase,
+    private val getRamdonVariableCaseUse : GetRamdonVariableCaseUse
+) : ViewModel() {
 
 
     val variableModel = MutableLiveData<VariableModel>()
     val isLoading = MutableLiveData<Boolean>()
-    var getVariableUseCase = GetVariableUseCase()
-    var getRamdonVariableCaseUse = GetRamdonVariableCaseUse()
     lateinit var context: Context
 
     fun onCreate(context: Context) {

@@ -4,22 +4,27 @@ import com.example.principiante.core.RetroFitHelper
 import com.example.principiante.data.model.VariableModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class VariableService {
-    private val retrofit = RetroFitHelper.getRetrofit()
+class VariableService @Inject constructor(
+    private val api : VariableApiClient
+){
 
     suspend fun getVariables(): List<VariableModel> {
         return withContext(Dispatchers.IO) {
-            val response = retrofit.create(VariableApiClient::class.java).getAllVariables()
+            val response = api.getAllVariables()
             if (response.isSuccessful) {
                 if (response.body().isNullOrEmpty()) {
                     println("Devuelve null en VariableService")
+                    response.body()
                 }
+                response.body() ?: emptyList()
             }else {
-
+                println("Error")
+                emptyList()
             }
 
-            response.body() ?: emptyList()
+
         }
 
     }
