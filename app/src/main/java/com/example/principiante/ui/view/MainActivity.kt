@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun variables(){
         // INT, BOOLEAN, DOUBLE, FLOAT, STRING, BOOL
         //  var = variables , val = constantes
+        //dsd
 
         val myINT : Int = 2
         val myFloat : Float = 2.2233233F
