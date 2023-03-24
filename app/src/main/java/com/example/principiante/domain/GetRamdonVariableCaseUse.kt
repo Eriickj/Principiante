@@ -2,11 +2,14 @@ package com.example.principiante.domain
 
 import com.example.principiante.data.model.VariableModel
 import com.example.principiante.data.model.VariableProvider
+import javax.inject.Inject
 
-class GetRamdonVariableCaseUse {
+class GetRamdonVariableCaseUse @Inject constructor(
+    private val variableProvider: VariableProvider
+){
 
      operator fun invoke(): VariableModel?{
-         val variables = VariableProvider.variables
+         val variables = variableProvider.variables
 
          if (!variables.isNullOrEmpty()){
              val randomVariable = (variables.indices).random()

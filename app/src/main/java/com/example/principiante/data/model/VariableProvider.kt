@@ -1,10 +1,11 @@
 package com.example.principiante.data.model
 
-class VariableProvider {
+import javax.inject.Inject
+import javax.inject.Singleton
 
-    companion object{
+@Singleton
+class VariableProvider @Inject constructor() {
 
-      var variables:List<VariableModel> =  emptyList()
-    }
+    var variables: List<VariableModel> = emptyList()
 
 }
