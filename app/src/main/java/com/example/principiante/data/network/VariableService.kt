@@ -14,12 +14,15 @@ class VariableService {
             if (response.isSuccessful) {
                 if (response.body().isNullOrEmpty()) {
                     println("Devuelve null en VariableService")
+                    response.body()
                 }
+                response.body() ?: emptyList()
             }else {
-
+                println("Error")
+                emptyList()
             }
 
-            response.body() ?: emptyList()
+
         }
 
     }
