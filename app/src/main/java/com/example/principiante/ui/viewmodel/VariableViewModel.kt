@@ -5,23 +5,21 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.principiante.data.model.VariableModel
-import com.example.principiante.data.model.VariableProvider
 import com.example.principiante.domain.GetRamdonVariableCaseUse
 import com.example.principiante.domain.GetVariableUseCase
-import com.example.principiante.ui.view.MainActivity
+import com.example.principiante.domain.model.Variable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class VariableViewModel @Inject constructor(
-    private val getVariableUseCase : GetVariableUseCase,
-    private val getRamdonVariableCaseUse : GetRamdonVariableCaseUse
+    private val getVariableUseCase: GetVariableUseCase,
+    private val getRamdonVariableCaseUse: GetRamdonVariableCaseUse
 ) : ViewModel() {
 
 
-    val variableModel = MutableLiveData<VariableModel>()
+    val variableModel = MutableLiveData<Variable>()
     val isLoading = MutableLiveData<Boolean>()
     lateinit var context: Context
 
@@ -43,12 +41,17 @@ class VariableViewModel @Inject constructor(
 
 
     fun ramdonVariable() {
-        isLoading.postValue(true)
-        val variable = getRamdonVariableCaseUse()
-        if(variable!=null){
-            variableModel.postValue(variable!!)
+
+        viewModelScope.launch {
+
+            isLoading.postValue(true)
+            val variable = getRamdonVariableCaseUse()
+            if (variable != null) {
+                variableModel.postValue(variable!!)
+            }
+            isLoading.postValue(false)
+
         }
-        isLoading.postValue(false)
     }
 
 

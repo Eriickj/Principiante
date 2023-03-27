@@ -1,20 +1,32 @@
 package com.example.principiante.data
 
-import android.widget.Toast
-import com.example.principiante.data.model.VariableModel
-import com.example.principiante.data.model.VariableProvider
+import com.example.principiante.data.database.dao.VariableDao
+import com.example.principiante.data.database.entities.VariableEntity
 import com.example.principiante.data.network.VariableService
+import com.example.principiante.domain.model.Variable
+import com.example.principiante.domain.model.toDomain
 import javax.inject.Inject
 
 class VariableRepository @Inject constructor(
     private val api: VariableService,
-    private val variableProvider : VariableProvider
+    private val variableDao: VariableDao
 ) {
 
-    suspend fun getAllVariables(): List<VariableModel> {
+    suspend fun getAllVariablesFromApi(): List<Variable> {
         val response = api.getVariables()
+        return response.map { it.toDomain() }
+    }
 
-        variableProvider.variables = response
-        return response
+    suspend fun getAllVariblesFromDataBase():List<Variable>{
+        val response =  variableDao.getAllVariables()
+        return response.map { it.toDomain() }
+    }
+
+    suspend fun insertVariables(variables : List<VariableEntity>){
+        variableDao.insertAll(variables)
+    }
+
+    suspend fun clearVariables() {
+        variableDao.deleteAllVariables()
     }
 }
